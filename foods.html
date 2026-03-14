@@ -1,0 +1,627 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Organic Store | Premium Healthy Life</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+        
+        body {
+            font-family: 'Poppins', sans-serif;
+            scroll-behavior: smooth;
+        }
+
+        .nav-scrolled {
+            background: rgba(255, 255, 255, 0.98);
+            box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+            padding-top: 0.75rem;
+            padding-bottom: 0.75rem;
+        }
+
+        .hero-gradient {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.3)), url('https://images.unsplash.com/photo-1464226184884-fa280b87c399?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+        }
+
+        .feature-card {
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-12px);
+            background-color: #059669;
+            color: white;
+        }
+
+        .feature-card:hover .icon-container {
+            border-color: white;
+            color: white;
+            background: rgba(255,255,255,0.1);
+        }
+
+        .product-card {
+            transition: all 0.3s ease;
+        }
+
+        .product-card img {
+            transition: transform 0.6s ease;
+        }
+
+        .product-card:hover img {
+            transform: scale(1.15);
+        }
+
+        .product-overlay {
+            opacity: 0;
+            background: rgba(6, 78, 59, 0.7);
+            transition: all 0.4s ease;
+        }
+
+        .product-card:hover .product-overlay {
+            opacity: 1;
+        }
+
+        .active-nav {
+            color: #10b981;
+            position: relative;
+        }
+
+        .active-nav::after {
+            content: '';
+            position: absolute;
+            bottom: -5px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: #10b981;
+        }
+
+        .gallery-item {
+            cursor: pointer;
+            overflow: hidden;
+        }
+        
+        .testimonial-active {
+            display: block;
+            animation: fadeIn 0.5s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateX(20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        .glass-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="bg-gray-50 overflow-x-hidden">
+
+    <!-- Top Bar -->
+    <div class="bg-emerald-900 text-white py-2 px-4 md:px-12 text-sm flex justify-between items-center hidden md:flex">
+        <div class="flex gap-6">
+            <span><i class="fas fa-phone-alt text-emerald-400 mr-2"></i> +1 234 567 890</span>
+            <span><i class="fas fa-envelope text-emerald-400 mr-2"></i> info@organicstore.com</span>
+        </div>
+        <div class="flex gap-4">
+            <a href="#"><i class="fab fa-facebook-f hover:text-emerald-400"></i></a>
+            <a href="#"><i class="fab fa-instagram hover:text-emerald-400"></i></a>
+            <a href="#"><i class="fab fa-twitter hover:text-emerald-400"></i></a>
+        </div>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="navbar" class="fixed top-0 md:top-9 w-full z-50 transition-all duration-300 py-6 px-4 md:px-12 flex items-center justify-between text-white">
+        <div class="flex items-center gap-2 text-2xl font-black tracking-tighter cursor-pointer" onclick="showPage('home')">
+            <i class="fas fa-seedling text-emerald-400 text-3xl"></i>
+            <span class="text-white drop-shadow-md"><span class="text-emerald-400">ORG</span>ANIC</span>
+        </div>
+
+        <!-- Desktop Menu -->
+        <ul class="hidden lg:flex items-center gap-10 font-semibold uppercase text-xs tracking-widest">
+            <li><a href="#" onclick="showPage('home')" class="nav-link active-nav hover:text-emerald-400 transition-all">Home</a></li>
+            <li><a href="#" onclick="showPage('about')" class="nav-link hover:text-emerald-400 transition-all">About Us</a></li>
+            <li><a href="#" onclick="showPage('products')" class="nav-link hover:text-emerald-400 transition-all">Products</a></li>
+            <li><a href="#" onclick="showPage('gallery')" class="nav-link hover:text-emerald-400 transition-all">Gallery</a></li>
+            <li><a href="#" onclick="showPage('contact')" class="nav-link hover:text-emerald-400 transition-all">Contact</a></li>
+        </ul>
+
+        <div class="flex items-center gap-4">
+            <div class="relative hidden sm:block">
+                <i class="fas fa-shopping-basket text-xl cursor-pointer hover:text-emerald-400 transition-colors"></i>
+                <span class="absolute -top-2 -right-2 bg-emerald-500 text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">3</span>
+            </div>
+            <button class="bg-emerald-500 hover:bg-emerald-600 px-6 py-2.5 rounded-lg text-white font-bold text-sm shadow-lg shadow-emerald-500/30 transition-all">
+                ORDER NOW
+            </button>
+            <button class="lg:hidden text-2xl" id="menuBtn">
+                <i class="fas fa-bars"></i>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Mobile Menu -->
+    <div id="mobileMenu" class="fixed inset-0 bg-emerald-900 z-[60] flex flex-col items-center justify-center gap-8 text-2xl font-bold text-white transform translate-x-full transition-transform duration-500">
+        <button id="closeBtn" class="absolute top-8 right-8 text-4xl"><i class="fas fa-times"></i></button>
+        <a href="#" onclick="showPage('home')" class="mobile-link hover:text-emerald-400">Home</a>
+        <a href="#" onclick="showPage('about')" class="mobile-link hover:text-emerald-400">About Us</a>
+        <a href="#" onclick="showPage('products')" class="mobile-link hover:text-emerald-400">Products</a>
+        <a href="#" onclick="showPage('gallery')" class="mobile-link hover:text-emerald-400">Gallery</a>
+        <a href="#" onclick="showPage('contact')" class="mobile-link hover:text-emerald-400">Contact</a>
+    </div>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        
+        <!-- HOME PAGE -->
+        <section id="home" class="page-content">
+            <!-- Hero -->
+            <div class="hero-gradient h-screen flex items-center px-4 md:px-20 text-white">
+                <div class="max-w-4xl">
+                    <div class="inline-block bg-emerald-500/20 backdrop-blur-md px-4 py-1 rounded-full text-emerald-300 font-bold text-sm mb-6 border border-emerald-500/30">
+                        🌿 NATURALLY GROWN, LOCALLY SOURCED
+                    </div>
+                    <h1 class="text-6xl md:text-8xl font-black mb-6 leading-[0.9] tracking-tight">
+                        Eat Better,<br><span class="text-emerald-400">Live Healthier.</span>
+                    </h1>
+                    <p class="text-xl mb-10 text-gray-200 max-w-xl leading-relaxed">
+                        We bring the farm to your table. Our organic produce is harvested daily at the peak of ripeness to ensure you get the maximum nutrients and flavor.
+                    </p>
+                    <div class="flex flex-wrap gap-5">
+                        <button class="bg-emerald-500 hover:bg-emerald-600 px-10 py-4 rounded-xl font-bold text-lg transition-all transform hover:scale-105 shadow-xl shadow-emerald-600/40">EXPLORE SHOP</button>
+                        <button class="glass-card px-10 py-4 rounded-xl font-bold text-lg transition-all hover:bg-white/20">OUR STORY</button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Features -->
+            <div class="py-24 px-4 md:px-12 max-w-7xl mx-auto -mt-20 relative z-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+                <div class="feature-card bg-white p-10 rounded-2xl shadow-xl text-center">
+                    <div class="icon-container w-16 h-16 border-2 border-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl text-emerald-600 transition-all">
+                        <i class="fas fa-truck-loading"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Fast Delivery</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Same day delivery for orders placed before 12 PM in metro areas.</p>
+                </div>
+                <div class="feature-card bg-white p-10 rounded-2xl shadow-xl text-center">
+                    <div class="icon-container w-16 h-16 border-2 border-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl text-emerald-600 transition-all">
+                        <i class="fas fa-hand-holding-heart"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Eco Friendly</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">We use 100% biodegradable packaging for all our shipments.</p>
+                </div>
+                <div class="feature-card bg-white p-10 rounded-2xl shadow-xl text-center">
+                    <div class="icon-container w-16 h-16 border-2 border-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl text-emerald-600 transition-all">
+                        <i class="fas fa-microchip"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Smart Sourcing</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Blockchain tracked produce. Know exactly where your food comes from.</p>
+                </div>
+                <div class="feature-card bg-white p-10 rounded-2xl shadow-xl text-center">
+                    <div class="icon-container w-16 h-16 border-2 border-emerald-100 rounded-2xl flex items-center justify-center mx-auto mb-6 text-3xl text-emerald-600 transition-all">
+                        <i class="fas fa-wallet"></i>
+                    </div>
+                    <h3 class="text-xl font-bold mb-3">Best Price</h3>
+                    <p class="text-gray-500 text-sm leading-relaxed">Direct from farm means no middleman markups for you.</p>
+                </div>
+            </div>
+
+            <!-- Best Sellers Grid -->
+            <div class="py-24 px-4 md:px-12 bg-white">
+                <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-end mb-16 gap-6">
+                    <div class="max-w-2xl">
+                        <h5 class="text-emerald-600 font-bold uppercase tracking-widest text-sm mb-4">Market Favorites</h5>
+                        <h2 class="text-4xl md:text-5xl font-black text-gray-900 leading-tight">Trending Organic Picks</h2>
+                    </div>
+                    <button onclick="showPage('products')" class="text-emerald-600 font-bold flex items-center gap-2 hover:gap-4 transition-all">
+                        VIEW ALL PRODUCTS <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+
+                <div class="max-w-7xl mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
+                    <!-- Product Item -->
+                    <div class="product-card group bg-gray-50 rounded-3xl overflow-hidden border border-gray-100 hover:shadow-2xl hover:shadow-emerald-500/10">
+                        <div class="h-72 overflow-hidden relative">
+                            <span class="absolute top-4 left-4 z-10 bg-emerald-500 text-white text-[10px] font-black px-3 py-1 rounded-full uppercase">Organic</span>
+                            <img src="https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600" alt="Avocado" class="w-full h-full object-cover">
+                            <div class="product-overlay absolute inset-0 flex flex-col items-center justify-center p-6 text-center">
+                                <p class="text-white text-sm mb-4 opacity-0 group-hover:opacity-100 transition-opacity delay-100">Rich in healthy fats and essential nutrients for daily energy.</p>
+                                <button class="bg-white text-emerald-900 px-6 py-3 rounded-xl font-black text-sm hover:bg-emerald-500 hover:text-white transition-all transform translate-y-4 group-hover:translate-y-0 duration-300">ADD TO CART</button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <div class="flex justify-between items-start mb-2">
+                                <h4 class="text-xl font-bold text-gray-800">Hass Avocado</h4>
+                                <div class="text-orange-400 text-xs">
+                                    <i class="fas fa-star"></i> 4.9
+                                </div>
+                            </div>
+                            <div class="flex justify-between items-center">
+                                <p class="text-emerald-600 font-black text-2xl">$4.50 <span class="text-gray-400 text-sm font-normal">/ pc</span></p>
+                                <button class="w-10 h-10 rounded-full border border-gray-200 flex items-center justify-center text-gray-400 hover:bg-emerald-500 hover:text-white hover:border-emerald-500 transition-all">
+                                    <i class="far fa-heart"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Repeat Products for visual density -->
+                    <div class="product-card group bg-gray-50 rounded-3xl overflow-hidden border border-gray-100">
+                        <div class="h-72 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=600" alt="Carrots" class="w-full h-full object-cover">
+                            <div class="product-overlay absolute inset-0 flex flex-col items-center justify-center p-6">
+                                <button class="bg-white text-emerald-900 px-6 py-3 rounded-xl font-black text-sm hover:bg-emerald-500 hover:text-white transition-all">ADD TO CART</button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">Orange Carrots</h4>
+                            <p class="text-emerald-600 font-black text-2xl">$2.99 <span class="text-gray-400 text-sm font-normal">/ kg</span></p>
+                        </div>
+                    </div>
+
+                    <div class="product-card group bg-gray-50 rounded-3xl overflow-hidden border border-gray-100">
+                        <div class="h-72 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=600" alt="Pineapple" class="w-full h-full object-cover">
+                            <div class="product-overlay absolute inset-0 flex flex-col items-center justify-center p-6">
+                                <button class="bg-white text-emerald-900 px-6 py-3 rounded-xl font-black text-sm hover:bg-emerald-500 hover:text-white transition-all">ADD TO CART</button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">Sweet Pineapple</h4>
+                            <p class="text-emerald-600 font-black text-2xl">$6.20 <span class="text-gray-400 text-sm font-normal">/ pc</span></p>
+                        </div>
+                    </div>
+
+                    <div class="product-card group bg-gray-50 rounded-3xl overflow-hidden border border-gray-100">
+                        <div class="h-72 overflow-hidden relative">
+                            <img src="https://images.unsplash.com/photo-1596333616620-231d10a30a49?auto=format&fit=crop&w=600" alt="Ginger" class="w-full h-full object-cover">
+                            <div class="product-overlay absolute inset-0 flex flex-col items-center justify-center p-6">
+                                <button class="bg-white text-emerald-900 px-6 py-3 rounded-xl font-black text-sm hover:bg-emerald-500 hover:text-white transition-all">ADD TO CART</button>
+                            </div>
+                        </div>
+                        <div class="p-6">
+                            <h4 class="text-xl font-bold text-gray-800 mb-2">Organic Ginger</h4>
+                            <p class="text-emerald-600 font-black text-2xl">$11.00 <span class="text-gray-400 text-sm font-normal">/ kg</span></p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Testimonials -->
+            <div class="py-24 bg-emerald-900 text-white overflow-hidden relative">
+                <div class="absolute top-0 right-0 opacity-10 rotate-12 -translate-y-20">
+                    <i class="fas fa-leaf text-[30rem]"></i>
+                </div>
+                <div class="max-w-4xl mx-auto px-4 text-center relative z-10">
+                    <i class="fas fa-quote-left text-5xl text-emerald-400 mb-8"></i>
+                    <div id="testimonial-slider">
+                        <div class="testimonial-item testimonial-active">
+                            <p class="text-2xl md:text-3xl font-medium leading-relaxed mb-10 italic">
+                                "The quality of the vegetables I received was outstanding. You can literally taste the difference between these and supermarket produce. The delivery was right on time and packaging was eco-friendly!"
+                            </p>
+                            <div class="flex items-center justify-center gap-4">
+                                <img src="https://i.pravatar.cc/150?u=1" class="w-16 h-16 rounded-full border-2 border-emerald-400" alt="User">
+                                <div class="text-left">
+                                    <h5 class="font-bold text-lg">Sarah Johnson</h5>
+                                    <p class="text-emerald-400 text-sm">Health Blogger</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- GALLERY PAGE -->
+        <section id="gallery" class="page-content hidden pt-40 pb-24 px-4 md:px-12 bg-gray-50">
+            <div class="max-w-7xl mx-auto text-center mb-16">
+                <h2 class="text-5xl font-black mb-6">Our Farm Gallery</h2>
+                <div class="flex flex-wrap justify-center gap-4 mb-12">
+                    <button class="bg-emerald-500 text-white px-6 py-2 rounded-full font-bold">All</button>
+                    <button class="bg-white text-gray-600 px-6 py-2 rounded-full font-bold hover:bg-emerald-100 transition-all">Harvesting</button>
+                    <button class="bg-white text-gray-600 px-6 py-2 rounded-full font-bold hover:bg-emerald-100 transition-all">Packaging</button>
+                    <button class="bg-white text-gray-600 px-6 py-2 rounded-full font-bold hover:bg-emerald-100 transition-all">Team</button>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                    <div class="gallery-item rounded-3xl group">
+                        <img src="https://images.unsplash.com/photo-1523348837708-15d4a09cfac2?auto=format&fit=crop&w=600" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700" alt="Gallery">
+                    </div>
+                    <div class="gallery-item rounded-3xl group">
+                        <img src="https://images.unsplash.com/photo-1500651230702-0e2d8a49d4ad?auto=format&fit=crop&w=600" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700" alt="Gallery">
+                    </div>
+                    <div class="gallery-item rounded-3xl group">
+                        <img src="https://images.unsplash.com/photo-1474440692490-2e83af4864b8?auto=format&fit=crop&w=600" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700" alt="Gallery">
+                    </div>
+                    <div class="gallery-item rounded-3xl group">
+                        <img src="https://images.unsplash.com/photo-1595855759920-86582396756a?auto=format&fit=crop&w=600" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700" alt="Gallery">
+                    </div>
+                    <div class="gallery-item rounded-3xl group">
+                        <img src="https://images.unsplash.com/photo-1589923188900-85dae523342b?auto=format&fit=crop&w=600" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700" alt="Gallery">
+                    </div>
+                    <div class="gallery-item rounded-3xl group">
+                        <img src="https://images.unsplash.com/photo-1533750349088-cd871a92f312?auto=format&fit=crop&w=600" class="w-full h-80 object-cover group-hover:scale-110 transition-transform duration-700" alt="Gallery">
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT PAGE -->
+        <section id="about" class="page-content hidden pt-40 pb-24">
+            <div class="max-w-7xl mx-auto px-4 md:px-12 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                <div class="relative">
+                    <img src="https://images.unsplash.com/photo-1595107660205-027581729b47?auto=format&fit=crop&w=800" class="rounded-[3rem] shadow-2xl z-10 relative" alt="Farm">
+                    <div class="absolute -bottom-10 -right-10 bg-emerald-500 p-10 rounded-[2.5rem] text-white hidden md:block">
+                        <p class="text-5xl font-black mb-1">25+</p>
+                        <p class="text-sm font-bold uppercase tracking-widest">Years Experience</p>
+                    </div>
+                </div>
+                <div>
+                    <h5 class="text-emerald-600 font-bold uppercase tracking-widest mb-4">Our Heritage</h5>
+                    <h2 class="text-5xl font-black mb-8 leading-tight text-gray-900">Rooted in Organic Excellence</h2>
+                    <p class="text-gray-600 text-lg mb-8 leading-relaxed">
+                        Founded in 1995, our farm was born out of a desire to reconnect families with the earth. We believe that soil health is the foundation of human health.
+                    </p>
+                    <div class="grid grid-cols-2 gap-8 mb-10">
+                        <div class="flex items-start gap-4">
+                            <div class="bg-emerald-100 text-emerald-600 p-3 rounded-xl"><i class="fas fa-microscope text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold mb-1">Purity Tested</h4>
+                                <p class="text-sm text-gray-500">Every batch is tested for contaminants.</p>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-4">
+                            <div class="bg-emerald-100 text-emerald-600 p-3 rounded-xl"><i class="fas fa-cloud-sun text-xl"></i></div>
+                            <div>
+                                <h4 class="font-bold mb-1">Natural Cycles</h4>
+                                <p class="text-sm text-gray-500">We grow with the seasons, not against them.</p>
+                            </div>
+                        </div>
+                    </div>
+                    <button class="bg-emerald-900 text-white px-10 py-4 rounded-2xl font-black flex items-center gap-3 hover:bg-emerald-800 transition-all">
+                        MEET OUR FARMERS <i class="fas fa-chevron-right text-xs"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT PAGE -->
+        <section id="contact" class="page-content hidden pt-40 pb-24 px-4 md:px-12">
+            <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-3 gap-10">
+                <div class="lg:col-span-1 space-y-6">
+                    <h2 class="text-5xl font-black mb-8">Contact Us</h2>
+                    <p class="text-gray-500 mb-10">Have questions? We'd love to hear from you. Drop us a line and we'll get back to you within 24 hours.</p>
+                    <div class="bg-white p-8 rounded-3xl shadow-lg border border-gray-100">
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-xl">
+                                <i class="fas fa-map-marker-alt"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase">Our Farm</p>
+                                <p class="font-bold text-gray-800">123 Green Valley, California</p>
+                            </div>
+                        </div>
+                        <div class="flex items-center gap-4 mb-6">
+                            <div class="w-12 h-12 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center text-xl">
+                                <i class="fas fa-phone-alt"></i>
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-400 uppercase">Phone</p>
+                                <p class="font-bold text-gray-800">+1 800 ORGANIC</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="lg:col-span-2 bg-white p-10 md:p-16 rounded-[3rem] shadow-2xl shadow-emerald-900/10">
+                    <form onsubmit="event.preventDefault();" class="space-y-8">
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                            <div class="space-y-2">
+                                <label class="text-xs font-black uppercase text-gray-400 tracking-widest px-2">First Name</label>
+                                <input type="text" class="w-full bg-gray-50 p-5 rounded-2xl border border-transparent focus:border-emerald-500 focus:bg-white outline-none transition-all" placeholder="John">
+                            </div>
+                            <div class="space-y-2">
+                                <label class="text-xs font-black uppercase text-gray-400 tracking-widest px-2">Email Address</label>
+                                <input type="email" class="w-full bg-gray-50 p-5 rounded-2xl border border-transparent focus:border-emerald-500 focus:bg-white outline-none transition-all" placeholder="john@example.com">
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label class="text-xs font-black uppercase text-gray-400 tracking-widest px-2">Message</label>
+                            <textarea rows="6" class="w-full bg-gray-50 p-5 rounded-2xl border border-transparent focus:border-emerald-500 focus:bg-white outline-none transition-all" placeholder="How can we help you today?"></textarea>
+                        </div>
+                        <button class="w-full bg-emerald-600 text-white p-6 rounded-2xl font-black text-lg hover:bg-emerald-700 transition-all shadow-xl shadow-emerald-600/20">SEND YOUR MESSAGE</button>
+                    </form>
+                </div>
+            </div>
+        </section>
+
+        <!-- PRODUCTS PAGE (Grid expansion) -->
+        <section id="products" class="page-content hidden pt-40 pb-24 px-4 md:px-12 bg-gray-50">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="text-5xl font-black mb-6">Explore Our Shop</h2>
+                    <p class="text-gray-500 max-w-xl mx-auto">Browse through our complete collection of seasonal organic produce, handcrafted artisanal goods, and kitchen essentials.</p>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-4 gap-10">
+                    <!-- Filters Sidebar -->
+                    <div class="hidden md:block space-y-10">
+                        <div>
+                            <h4 class="font-black text-lg mb-6 flex items-center gap-2"><i class="fas fa-filter text-emerald-500"></i> Categories</h4>
+                            <div class="space-y-3">
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" checked class="w-5 h-5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500">
+                                    <span class="group-hover:text-emerald-600 transition-colors">All Products</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500">
+                                    <span class="group-hover:text-emerald-600 transition-colors">Fresh Vegetables</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500">
+                                    <span class="group-hover:text-emerald-600 transition-colors">Seasonal Fruits</span>
+                                </label>
+                                <label class="flex items-center gap-3 cursor-pointer group">
+                                    <input type="checkbox" class="w-5 h-5 rounded border-gray-300 text-emerald-500 focus:ring-emerald-500">
+                                    <span class="group-hover:text-emerald-600 transition-colors">Organic Honey</span>
+                                </label>
+                            </div>
+                        </div>
+                        <div class="bg-emerald-900 rounded-[2rem] p-8 text-white">
+                            <h4 class="font-black text-xl mb-4">Farmer's Choice</h4>
+                            <p class="text-emerald-300 text-sm mb-6">Subscribe to our weekly basket and get 20% off your first month!</p>
+                            <button class="bg-emerald-500 w-full py-3 rounded-xl font-bold text-sm">LEARN MORE</button>
+                        </div>
+                    </div>
+
+                    <!-- Products Grid -->
+                    <div class="md:col-span-3 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8" id="products-list">
+                        <!-- Dynamic items would go here, reusing the product-card style -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="bg-slate-900 text-white pt-32 pb-12 px-4 md:px-12 overflow-hidden relative">
+        <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-16 relative z-10">
+            <div>
+                <div class="flex items-center gap-2 text-2xl font-black mb-8">
+                    <i class="fas fa-seedling text-emerald-400"></i>
+                    <span>ORGANIC STORE</span>
+                </div>
+                <p class="text-gray-400 leading-relaxed mb-8">Empowering communities through sustainable agriculture and healthy living since 1995.</p>
+                <div class="flex gap-4">
+                    <div class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-emerald-500 transition-all cursor-pointer"><i class="fab fa-facebook-f"></i></div>
+                    <div class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-emerald-500 transition-all cursor-pointer"><i class="fab fa-instagram"></i></div>
+                    <div class="w-10 h-10 rounded-xl bg-slate-800 flex items-center justify-center hover:bg-emerald-500 transition-all cursor-pointer"><i class="fab fa-youtube"></i></div>
+                </div>
+            </div>
+            <div>
+                <h4 class="text-lg font-black mb-8 uppercase tracking-widest text-emerald-400">Quick Menu</h4>
+                <ul class="space-y-4 text-gray-400 font-medium">
+                    <li><a href="#" onclick="showPage('home')" class="hover:text-white hover:translate-x-2 transition-all inline-block">Home</a></li>
+                    <li><a href="#" onclick="showPage('about')" class="hover:text-white hover:translate-x-2 transition-all inline-block">About Our Farm</a></li>
+                    <li><a href="#" onclick="showPage('products')" class="hover:text-white hover:translate-x-2 transition-all inline-block">Shop All Products</a></li>
+                    <li><a href="#" onclick="showPage('contact')" class="hover:text-white hover:translate-x-2 transition-all inline-block">Contact Support</a></li>
+                </ul>
+            </div>
+            <div>
+                <h4 class="text-lg font-black mb-8 uppercase tracking-widest text-emerald-400">Join Community</h4>
+                <p class="text-gray-400 mb-6 text-sm">Get healthy recipes and exclusive farm offers delivered to your inbox.</p>
+                <form class="space-y-3">
+                    <input type="email" placeholder="Your email address" class="w-full bg-slate-800 border-none rounded-xl p-4 outline-none focus:ring-2 focus:ring-emerald-500">
+                    <button class="w-full bg-emerald-500 py-4 rounded-xl font-black hover:bg-emerald-600 transition-all">SUBSCRIBE</button>
+                </form>
+            </div>
+            <div>
+                <h4 class="text-lg font-black mb-8 uppercase tracking-widest text-emerald-400">Find Us</h4>
+                <div class="bg-slate-800 p-6 rounded-[2rem] space-y-4">
+                    <p class="text-sm flex items-center gap-3"><i class="fas fa-map-marker-alt text-emerald-500"></i> 123 Farm Way, CA 90210</p>
+                    <p class="text-sm flex items-center gap-3"><i class="fas fa-clock text-emerald-500"></i> Mon - Sat: 8am - 6pm</p>
+                    <img src="https://images.unsplash.com/photo-1526778548025-fa2f459cd5c1?auto=format&fit=crop&w=400" class="w-full h-24 object-cover rounded-xl mt-4 opacity-50 grayscale hover:grayscale-0 transition-all cursor-pointer" alt="Map">
+                </div>
+            </div>
+        </div>
+        <div class="max-w-7xl mx-auto border-t border-slate-800 mt-20 pt-10 flex flex-col md:flex-row justify-between items-center text-gray-500 text-sm">
+            <p>© 2024 Organic Store. Handcrafted with care for a better planet.</p>
+            <div class="flex gap-8 mt-4 md:mt-0">
+                <a href="#" class="hover:text-white">Privacy Policy</a>
+                <a href="#" class="hover:text-white">Terms of Service</a>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced Product Data for the Products page
+        const productsData = [
+            { name: "Hass Avocado", price: 4.50, unit: "pc", img: "https://images.unsplash.com/photo-1610348725531-843dff563e2c?auto=format&fit=crop&w=600" },
+            { name: "Orange Carrots", price: 2.99, unit: "kg", img: "https://images.unsplash.com/photo-1598170845058-32b9d6a5da37?auto=format&fit=crop&w=600" },
+            { name: "Sweet Pineapple", price: 6.20, unit: "pc", img: "https://images.unsplash.com/photo-1550258987-190a2d41a8ba?auto=format&fit=crop&w=600" },
+            { name: "Organic Ginger", price: 11.00, unit: "kg", img: "https://images.unsplash.com/photo-1596333616620-231d10a30a49?auto=format&fit=crop&w=600" },
+            { name: "Red Tomatoes", price: 3.50, unit: "kg", img: "https://images.unsplash.com/photo-1518977676601-b53f02ac6d31?auto=format&fit=crop&w=600" },
+            { name: "Green Broccoli", price: 4.80, unit: "kg", img: "https://images.unsplash.com/photo-1453365607868-7deed8cc7d26?auto=format&fit=crop&w=600" }
+        ];
+
+        function initProducts() {
+            const list = document.getElementById('products-list');
+            if(!list) return;
+            list.innerHTML = productsData.map(p => `
+                <div class="product-card group bg-white rounded-3xl overflow-hidden border border-gray-100 shadow-sm hover:shadow-xl transition-all">
+                    <div class="h-64 overflow-hidden relative">
+                        <img src="${p.img}" class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500">
+                        <div class="product-overlay absolute inset-0 flex items-center justify-center">
+                            <button class="bg-white text-emerald-900 px-6 py-2 rounded-xl font-black text-xs hover:bg-emerald-500 hover:text-white transition-all">QUICK VIEW</button>
+                        </div>
+                    </div>
+                    <div class="p-6">
+                        <h4 class="font-bold text-gray-800 mb-2">${p.name}</h4>
+                        <p class="text-emerald-600 font-black text-xl">$${p.price.toFixed(2)} <span class="text-gray-400 text-xs font-normal">/ ${p.unit}</span></p>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        // Navbar scroll effect
+        window.addEventListener('scroll', function() {
+            const navbar = document.getElementById('navbar');
+            const threshold = window.innerWidth > 768 ? 90 : 50;
+            if (window.scrollY > threshold) {
+                navbar.classList.add('nav-scrolled', 'text-gray-900', 'md:top-0');
+                navbar.classList.remove('text-white', 'md:top-9');
+            } else {
+                navbar.classList.remove('nav-scrolled', 'text-gray-900', 'md:top-0');
+                navbar.classList.add('text-white', 'md:top-9');
+            }
+        });
+
+        // Mobile menu toggle
+        const menuBtn = document.getElementById('menuBtn');
+        const closeBtn = document.getElementById('closeBtn');
+        const mobileMenu = document.getElementById('mobileMenu');
+
+        menuBtn.addEventListener('click', () => {
+            mobileMenu.classList.remove('translate-x-full');
+        });
+
+        closeBtn.addEventListener('click', () => {
+            mobileMenu.classList.add('translate-x-full');
+        });
+
+        // Page routing
+        function showPage(pageId) {
+            document.querySelectorAll('.page-content').forEach(p => p.classList.add('hidden'));
+            
+            const selected = document.getElementById(pageId);
+            if (selected) {
+                selected.classList.remove('hidden');
+                window.scrollTo(0, 0);
+                if(pageId === 'products') initProducts();
+            }
+
+            document.querySelectorAll('.nav-link').forEach(link => {
+                if (link.innerText.toLowerCase().includes(pageId)) {
+                    link.classList.add('active-nav');
+                } else {
+                    link.classList.remove('active-nav');
+                }
+            });
+
+            mobileMenu.classList.add('translate-x-full');
+        }
+
+        // Initialize
+        window.onload = () => {
+            showPage('home');
+        };
+    </script>
+</body>
+</html>
